@@ -69,17 +69,17 @@ const menuItems = [
     submenu: [
       { 
         name: 'Caixa Receitas', 
-        href: '/financeiro/cadastros', 
+        href: 'caixa/receitas', 
         icon: FileText,
       },
       { 
         name: 'Caixa Despesas', 
-        href: '/financeiro/movimentacoes', 
+        href: '/caixa/movimentacoes', 
         icon: CreditCard,
       },
       { 
         name: 'Receita X Despesa',
-        href: '/financeiro/relatorios', 
+        href: '/caixa/relatorios', 
         icon: BarChart,
       },
     ],
