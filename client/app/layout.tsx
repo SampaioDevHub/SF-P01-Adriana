@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-sync-scripts */
 import type { Metadata } from 'next'
 
 import { Inter } from 'next/font/google'
@@ -21,7 +20,8 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <head>
-        <script src="https://app.secureprivacy.ai/script/6777ef41ce78cb0a4736530d.js"></script>
+        {/* Colocando o script no topo da página, dentro da tag <head> */}
+        <script src="https://app.secureprivacy.ai/script/6777ef41ce78cb0a4736530d.js" async></script>
       </head>
       <body className={inter.className}>
         <SidebarProvider>
