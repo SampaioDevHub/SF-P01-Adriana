@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-sync-scripts */
 import type { Metadata } from 'next'
 
 import { Inter } from 'next/font/google'
@@ -19,6 +20,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
+      <head>
+        <script src="https://app.secureprivacy.ai/script/6777ef41ce78cb0a4736530d.js"></script>
+      </head>
       <body className={inter.className}>
         <SidebarProvider>
           <div className="flex h-screen">
