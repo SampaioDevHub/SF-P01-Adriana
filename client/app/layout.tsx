@@ -8,8 +8,8 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/s
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Meu Dashboard',
-  description: 'Dashboard profissional com Next.js 15',
+  title: 'Adriana Showroom Management',
+  description: 'Projeto em Desenvolvimento para Adriana Showroom - SampaioForce - 2025 - Todos os direitos reservados ',
 }
 
 export default function RootLayout({
