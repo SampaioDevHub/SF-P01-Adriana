@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import * as React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ChevronDown, LayoutDashboard, Users, Package, UserPlus, Settings, User, Palette } from 'lucide-react'
+import { ChevronDown, LayoutDashboard, Users, Package, UserPlus, Settings, User, Palette, DollarSign, FileText, BarChart, CreditCard } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import {
@@ -14,7 +15,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
-  SidebarMenuSubItem,
   SidebarMenuSubButton,
   SidebarFooter,
 } from '@/components/ui/sidebar'
@@ -26,7 +26,64 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 const menuItems = [
-  { name: 'Dashboard', href: '/', icon: LayoutDashboard },
+  { name: 'Home', href: '/', icon: LayoutDashboard },
+  {
+    name: 'Financeiro',
+    icon: DollarSign,
+    submenu: [
+      { 
+        name: 'Tipos Despesas', 
+        href: '/financeiro/cadastros', 
+        icon: FileText,
+      },
+      { 
+        name: 'Contas Bancárias', 
+        href: '/financeiro/movimentacoes', 
+        icon: CreditCard,
+      },
+      { 
+        name: 'Lançar Receitas', // Renomeado para garantir chave única
+        href: '/financeiro/relatorios', 
+        icon: BarChart,
+      },
+      { 
+        name: 'Receitas', // Renomeado para garantir chave única
+        href: '/financeiro/relatorios', 
+        icon: BarChart,
+      },
+      { 
+        name: 'Relatório ', // Renomeado para garantir chave única
+        href: '/financeiro/relatorios', 
+        icon: BarChart,
+      },
+      { 
+        name: 'Saldo Inicial', // Renomeado para garantir chave única
+        href: '/financeiro/relatorios', 
+        icon: BarChart,
+      },
+    ],
+  },
+  {
+    name: 'Caixa',
+    icon: DollarSign,
+    submenu: [
+      { 
+        name: 'Caixa Receitas', 
+        href: '/financeiro/cadastros', 
+        icon: FileText,
+      },
+      { 
+        name: 'Caixa Despesas', 
+        href: '/financeiro/movimentacoes', 
+        icon: CreditCard,
+      },
+      { 
+        name: 'Receita X Despesa',
+        href: '/financeiro/relatorios', 
+        icon: BarChart,
+      },
+    ],
+  },
   {
     name: 'Cadastro',
     icon: Users,
@@ -59,15 +116,65 @@ export function AppSidebar() {
   const pathname = usePathname()
   const [openCollapsibles, setOpenCollapsibles] = React.useState<Record<string, boolean>>({})
 
-  const toggleCollapsible = React.useCallback((name: string) => {
+  const toggleCollapsibles = React.useCallback((name: string) => {
     setOpenCollapsibles((prev) => ({
       ...prev,
       [name]: !prev[name],
     }))
   }, [])
 
+  const renderMenuItem = (item: any, depth = 0) => (
+    <SidebarMenuItem key={`${item.name}-${item.href}`}>
+      {item.submenu ? (
+        <Collapsible
+          open={openCollapsibles[item.name]}
+          onOpenChange={(open) => setOpenCollapsibles((prev) => ({ ...prev, [item.name]: open }))}>
+          <CollapsibleTrigger asChild>
+            <SidebarMenuButton
+              onClick={() => toggleCollapsibles(item.name)}
+              className={cn(
+                "w-full justify-between text-[#FF6600]",
+                depth > 0 && "pl-6"
+              )}>
+              <span className="flex items-center">
+                <item.icon className="mr-2 h-4 w-4 text-[#FF6600]" />
+                <span className="truncate overflow-ellipsis whitespace-nowrap">{item.name}</span> {/* Modificado aqui */}
+              </span>
+              <ChevronDown
+                className={cn(
+                  "h-4 w-4 text-[#1d1f21] transition-transform duration-200",
+                  openCollapsibles[item.name] ? "rotate-180" : ""
+                )}
+              />
+            </SidebarMenuButton>
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+            <SidebarMenuSub>
+              {item.submenu.map((subItem: any) => renderMenuItem(subItem, depth + 1))}
+            </SidebarMenuSub>
+          </CollapsibleContent>
+        </Collapsible>
+      ) : (
+        <SidebarMenuSubButton
+          asChild
+          isActive={pathname === item.href}
+        >
+          <Link 
+            href={item.href}
+            className={cn(
+              "text-[#444648] hover:bg-[#FF6600]/10",
+              depth > 0 && "pl-6"
+            )}>
+            <item.icon className="mr-2 h-4 w-4 text-[#FF6600]" />
+            <span className="truncate overflow-ellipsis whitespace-nowrap">{item.name}</span> {/* Modificado aqui */}
+          </Link>
+        </SidebarMenuSubButton>
+      )}
+    </SidebarMenuItem>
+  )
+
   return (
-    <Sidebar className="border-r-0">
+    <Sidebar className="border-r-0 w-64"> {/* A largura foi ajustada para 72 */}
       <SidebarHeader className="p-4 border-b border-[#FF6600]/20 bg-[#F5F5F5]">
         <div className="flex items-center gap-3">
           <Avatar className="h-10 w-10 rounded-lg bg-[#FF6600]">
@@ -75,74 +182,15 @@ export function AppSidebar() {
             <AvatarFallback className="rounded-lg bg-[#FF6600] text-[#F5F5F5]">AS</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
-            <h2 className="text-lg font-semibold text-[#1d1f21]">Adriana Store</h2>
+            <h2 className="text-lg font-semibold text-[#1d1f21]">Adriana ShowRoom</h2>
             <p className="text-sm text-[#444648]">Vestuário</p>
           </div>
         </div>
       </SidebarHeader>
       <SidebarContent className="px-2 bg-[#FFFFFF]">
-        <h3 className="px-4 py-2 text-xs font-medium text-[#1d1f21]">Navegação</h3>
+        <h3 className="px-4 py-2 text-xs font-medium text-[#1d1f21]">MENU</h3>
         <SidebarMenu>
-          {menuItems.map((item) => (
-            <SidebarMenuItem key={item.name}>
-              {item.submenu ? (
-                <Collapsible
-                  open={openCollapsibles[item.name]}
-                  onOpenChange={(open) => setOpenCollapsibles((prev) => ({ ...prev, [item.name]: open }))}
-                >
-                  <CollapsibleTrigger asChild>
-                    <SidebarMenuButton
-                      onClick={() => toggleCollapsible(item.name)}
-                      className="w-full justify-between text-[#FF6600]"
-                    >
-                      <span className="flex items-center">
-                        <item.icon className="mr-2 h-4 w-4 text-[#FF6600]" />
-                        {item.name}
-                      </span>
-                      <ChevronDown
-                        className={cn(
-                          "h-4 w-4 text-[#1d1f21] transition-transform duration-200",
-                          openCollapsibles[item.name] ? "rotate-180" : ""
-                        )}
-                      />
-                    </SidebarMenuButton>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent>
-                    <SidebarMenuSub>
-                      {item.submenu.map((subItem) => (
-                        <SidebarMenuSubItem key={subItem.name}>
-                          <SidebarMenuSubButton
-                            asChild
-                            isActive={pathname === subItem.href}
-                          >
-                            <Link 
-                              href={subItem.href}
-                              className="text-[#444648] hover:bg-[#FF6600]/10"
-                            >
-                              {subItem.name}
-                            </Link>
-                          </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                      ))}
-                    </SidebarMenuSub>
-                  </CollapsibleContent>
-                </Collapsible>
-              ) : (
-                <SidebarMenuButton asChild>
-                  <Link
-                    href={item.href}
-                    className={cn(
-                      "hover:bg-[#FF6600]/10",
-                      pathname === item.href && "bg-[#FF6600]/10"
-                    )}
-                  >
-                    <item.icon className="mr-2 h-4 w-4 text-[#FF6600]" />
-                    {item.name}
-                  </Link>
-                </SidebarMenuButton>
-              )}
-            </SidebarMenuItem>
-          ))}
+          {menuItems.map(renderMenuItem)}
         </SidebarMenu>
       </SidebarContent>
       <SidebarFooter className="mt-auto p-4 border-t border-[#FF6600]/20 bg-[#F5F5F5]">

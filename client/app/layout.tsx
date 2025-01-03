@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
+
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { AppSidebar } from '@/components/sidebar'
@@ -22,21 +22,18 @@ export default function RootLayout({
       <body className={inter.className}>
         <SidebarProvider>
           <div className="flex h-screen">
-            <AppSidebar />
+            <AppSidebar /> {/* Ajuste da largura da sidebar para responsividade */}
             <SidebarInset className="flex-1">
               <header className="header flex items-center h-16 px-4 border-b">
-              <div className="sidebar-trigger">
-                    <SidebarTrigger />
-                  </div>
+                <div className="sidebar-trigger">
+                  <SidebarTrigger />
+                </div>
                 <div className="header-content flex items-center justify-between w-full max-w-screen-lg mx-auto">
                   {/* Logo Section */}
                   <div className="logo flex items-center">
-                    <Image src="/logo.png" alt="Logo" width={40} height={40} className="mr-3" />
-                    <h1 className="text-lg font-semibold text-gray-800">SampaioForce</h1>
+                    <h1 className="text-lg font-semibold text-gray-800">Dashboard Em Desenvolvimento</h1>
                   </div>
-
                   {/* Sidebar Trigger */}
-
                 </div>
               </header>
               <main className="p-4">
@@ -49,4 +46,3 @@ export default function RootLayout({
     </html>
   )
 }
-
