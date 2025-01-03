@@ -21,7 +21,6 @@ export default function RootLayout({
     <html lang="pt-BR">
       <head>
         {/* Colocando o script no topo da página, dentro da tag <head> */}
-        <script src="https://app.secureprivacy.ai/script/6777ef41ce78cb0a4736530d.js" async></script>
       </head>
       <body className={inter.className}>
         <SidebarProvider>
@@ -30,7 +29,7 @@ export default function RootLayout({
             <SidebarInset className="flex-1">
               <header className="header flex items-center h-16 px-4 border-b">
                 <div className="sidebar-trigger">
-                  <SidebarTrigger />
+                  <SidebarTrigger  />
                 </div>
                 <div className="header-content flex items-center justify-between w-full max-w-screen-lg mx-auto">
                   {/* Logo Section */}
